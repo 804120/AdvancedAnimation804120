@@ -75,23 +75,3 @@ function circle(r, a, b, stroke, fill) {
     context.fill();     // render the fill
     context.stroke();   // render the stroke
 }
-
-function bigcircle() {
-    let radius = 80;
-    context.beginPath();
-    context.arc(a, b, radius, 0, 2 * Math.PI);
-    context.strokeStyle = "black";  // color to fill
-    context.fillStyle = "pink";     // color to stroke
-    context.fill();     // render the fill
-    context.stroke();   // render the stroke
-}
-
-function smallcircle() {
-    let radius = 15;
-    context.beginPath();
-    context.arc(p, q, radius, 0, 2*Math.PI);
-    context.fillstyle = "black";
-    context.strokeStyle = "orange";
-    context.stroke();
-    context.fill();
-}

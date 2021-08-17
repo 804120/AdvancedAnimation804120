@@ -35,6 +35,9 @@ function animate() {
     circle(80, a, b, "black", "orange");
     circle(15, p, q, "black", "blue");
     requestAnimationFrame(animate); // next cycle
+    checkedges();
+}
+function checkedges(){
     if(x<45||x>1255){
       dx*=-1;
     }

@@ -3,7 +3,7 @@
 window.addEventListener("load", init);
 
 // global variables
-var canvas, context, x, y, dx, dy, a, b, da, db, p, q, dp, dq;
+var canvas, context, pos, change, radii, colors;
 
 function init(){
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
@@ -11,17 +11,10 @@ function init(){
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
 
-    x = 46;
-    y = 46;    // initial x,y canvas location
-    dx = dy = 12;   // velocity in x and y directions
-    a = 250;
-    b = 300;
-    da = -3;
-    db = 5;
-    p = 400;
-    q = 30;
-    dp = -30;
-    dq = 16;
+    pos = [[46, 46], [250, 300], [400, 30], [1200, 200], [700, 500], [800, 550]];
+    change = [[12, 12], [-3, 5], [-30, 16], [-15, 20], [8, 2], [20, -15]];
+    radii = [45, 80, 15, 30, 70, 25];
+    colors = ["red", "orange", "blue", "purple", "green", "yellow"];
     animate();      // kick off the animation
 
 }
@@ -31,41 +24,29 @@ function animate() {
     // erase the HTMLCanvasElement
     context.clearRect(0,0,canvas.width,canvas.height);
     update();   // update location
-    circle(45, x, y, "black", "red");     // render
-    circle(80, a, b, "black", "orange");
-    circle(15, p, q, "black", "blue");
+    for(var i=0;i<pos.length;i++){
+      circle(radii[i], pos[i][0], pos[i][1], "black", colors[i]);
+    }
     requestAnimationFrame(animate); // next cycle
     checkedges();
 }
 function checkedges(){
-    if(x<45||x>1255){
-      dx*=-1;
-    }
-    if(y<45||y>555){
-      dy*=-1;
-    }
-    if(a<80||a>1220){
-      da*=-1;
-    }
-    if(b<80||b>520){
-      db*=-1;
-    }
-    if(p<15||p>1285){
-      dp*=-1;
-    }
-    if(q<15||q>585){
-      dq*=-1;
+    for(var i=0;i<pos.length;i++){
+      if(pos[i][0]<radii[i]||pos[i][0]>1300-radii[i]){
+        change[i][0]*=-1;
+      }
+      if(pos[i][1]<radii[i]||pos[i][1]>600-radii[i]){
+        change[i][1]*=-1;
+      }
     }
 }
 
 // move the circle to a new location
 function update() {
-    x += dx;    // update x coordinate of location with x velocity
-    y += dy;  // update y coordinate of location with y velocity
-    a += da;
-    b += db;
-    p += dp;
-    q += dq;
+  for(var i=0;i<pos.length;i++){
+    pos[i][0]+=change[i][0];
+    pos[i][1]+=change[i][1];
+  }
 }
 
 // render a circle

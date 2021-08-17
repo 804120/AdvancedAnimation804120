@@ -31,9 +31,9 @@ function animate() {
     // erase the HTMLCanvasElement
     context.clearRect(0,0,canvas.width,canvas.height);
     update();   // update location
-    circle();     // render
-    bigcircle();
-    smallcircle();
+    circle(30, x, y, "black", "red");     // render
+    circle(80, a, b, "black", "orange");
+    circle(15, p, q, "black", "blue");
     requestAnimationFrame(animate); // next cycle
     if(x<30||x>770){
       dx*=-1;
@@ -66,14 +66,12 @@ function update() {
 }
 
 // render a circle
-function circle() {
-    let radius = 30; // local variable radius of the circle
-    // create the circle path
+function circle(r, a, b, stroke, fill) {
     context.beginPath();    // clear old path
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc
-    context.arc(x, y, radius, 0, 2 * Math.PI);
-    context.strokeStyle = "black";  // color to fill
-    context.fillStyle = "red";     // color to stroke
+    context.arc(a, b, r, 0, 2 * Math.PI);
+    context.strokeStyle = stroke;  // color to fill
+    context.fillStyle = fill;     // color to stroke
     context.fill();     // render the fill
     context.stroke();   // render the stroke
 }
@@ -83,7 +81,7 @@ function bigcircle() {
     context.beginPath();
     context.arc(a, b, radius, 0, 2 * Math.PI);
     context.strokeStyle = "black";  // color to fill
-    context.fillStyle = "blue";     // color to stroke
+    context.fillStyle = "pink";     // color to stroke
     context.fill();     // render the fill
     context.stroke();   // render the stroke
 }
@@ -93,5 +91,7 @@ function smallcircle() {
     context.beginPath();
     context.arc(p, q, radius, 0, 2*Math.PI);
     context.fillstyle = "black";
+    context.strokeStyle = "orange";
+    context.stroke();
     context.fill();
 }

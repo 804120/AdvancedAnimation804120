@@ -3,18 +3,75 @@
 window.addEventListener("load", init);
 
 // global variables
-var canvas, context, pos, change, radii, colors;
+var canvas, context;
+var ball = {};
+var ball2 = {};
 
 function init(){
     // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
     canvas = document.getElementById("cnv");
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
-
-    pos = [[46, 46], [250, 300], [400, 30], [1200, 200], [700, 500], [800, 550]];
-    change = [[12, 12], [-3, 5], [-30, 16], [-15, 20], [8, 2], [20, -15]];
-    radii = [45, 80, 15, 30, 70, 25];
-    colors = ["red", "orange", "blue", "purple", "green", "yellow"];
+    ball.x = 450;
+    ball.y = 150;
+    ball.dx = ball.dy = 10;
+    ball.radius = 35;
+    ball.color = "blue";
+    ball.checkedges = function(){
+      if(this.x<this.radius||this.x>canvas.width-this.radius){
+        this.dx*=-1;
+      }
+      if(this.y<this.radius||this.y>canvas.height-this.radius){
+        this.dy*=-1;
+      }
+    }
+    ball.update = function(){
+      this.x+=this.dx;
+      this.y+=this.dy;
+    }
+    ball.draw = function(){
+      context.beginPath();
+      context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
+      context.strokeStyle = "black";
+      context.stroke();
+      context.fillStyle = this.color;
+      context.fill();
+    }
+    ball.run = function(){
+      this.checkedges();
+      this.update();
+      this.draw();
+    }
+    ball2.x = 1000;
+    ball2.y = 300;
+    ball2.dx = ball2.dy = -8;
+    ball2.radius = 50;
+    ball2.color = "red";
+    ball2.checkedges = function(){
+      if(this.x<this.radius||this.x>canvas.width-this.radius){
+        this.dx*=-1;
+      }
+      if(this.y<this.radius||this.y>canvas.height-this.radius){
+        this.dy*=-1;
+      }
+    }
+    ball2.update = function(){
+      this.x+=this.dx;
+      this.y+=this.dy;
+    }
+    ball2.draw = function(){
+      context.beginPath();
+      context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
+      context.strokeStyle = "black";
+      context.stroke();
+      context.fillStyle = this.color;
+      context.fill();
+    }
+    ball2.run = function(){
+      this.checkedges();
+      this.update();
+      this.draw();
+    }
     animate();      // kick off the animation
 
 }
@@ -23,39 +80,7 @@ function init(){
 function animate() {
     // erase the HTMLCanvasElement
     context.clearRect(0,0,canvas.width,canvas.height);
-    update();   // update location
-    for(var i=0;i<pos.length;i++){
-      circle(radii[i], pos[i][0], pos[i][1], "black", colors[i]);
-    }
+    ball.run();
+    ball2.run();
     requestAnimationFrame(animate); // next cycle
-    checkedges();
-}
-function checkedges(){
-    for(var i=0;i<pos.length;i++){
-      if(pos[i][0]<radii[i]||pos[i][0]>1300-radii[i]){
-        change[i][0]*=-1;
-      }
-      if(pos[i][1]<radii[i]||pos[i][1]>600-radii[i]){
-        change[i][1]*=-1;
-      }
-    }
-}
-
-// move the circle to a new location
-function update() {
-  for(var i=0;i<pos.length;i++){
-    pos[i][0]+=change[i][0];
-    pos[i][1]+=change[i][1];
-  }
-}
-
-// render a circle
-function circle(r, a, b, stroke, fill) {
-    context.beginPath();    // clear old path
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc
-    context.arc(a, b, r, 0, 2 * Math.PI);
-    context.strokeStyle = stroke;  // color to fill
-    context.fillStyle = fill;     // color to stroke
-    context.fill();     // render the fill
-    context.stroke();   // render the stroke
 }

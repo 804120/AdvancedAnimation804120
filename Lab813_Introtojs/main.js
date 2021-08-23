@@ -1,86 +1,57 @@
-
-// wait for the page to finish loading with init as the callback
-window.addEventListener("load", init);
-
-// global variables
-var canvas, context;
-var ball = {};
-var ball2 = {};
-
-function init(){
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
-    canvas = document.getElementById("cnv");
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
+var canvas, context, b1, colors;// global variables
+class Ball{
+  constructor(x, y, dx, dy, radius, color){
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+    this.color=color;
+  }
+  checkedges(){
+    if(this.x<this.radius||this.x>canvas.width-this.radius){
+      this.dx*=-1;
+    }
+    if(this.y<this.radius||this.y>canvas.height-this.radius){
+      this.dy*=-1;
+    }
+  }
+  update(){
+    this.x+=this.dx;
+    this.y+=this.dy;
+  }
+  draw(){
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
+    context.strokeStyle = "black";
+    context.stroke();
+    context.fillStyle = this.color;
+    context.fill();
+  }
+  run(){
+    this.checkedges();
+    this.update();
+    this.draw();
+  }
+}
+function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
+    canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
-    ball.x = 450;
-    ball.y = 150;
-    ball.dx = ball.dy = 10;
-    ball.radius = 35;
-    ball.color = "blue";
-    ball.checkedges = function(){
-      if(this.x<this.radius||this.x>canvas.width-this.radius){
-        this.dx*=-1;
+    colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black"];
+    b1 = [];
+    for(let i = 0; i<Math.floor(Math.random()*100);i++){
+      let radius = Math.floor(Math.random()*40+14);
+      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-2*radius)+radius), Math.floor(Math.random()*(canvas.height-2*radius)+radius), Math.floor((Math.random()-0.5)*40), Math.floor((Math.random()-0.5)*40), radius, colors[Math.floor(Math.random()*colors.length)]));
+      if(b1[i].dx==0&&b1.dy==0){
+        b1[i].dx=1;
+        b1[i].dy=1;
       }
-      if(this.y<this.radius||this.y>canvas.height-this.radius){
-        this.dy*=-1;
-      }
-    }
-    ball.update = function(){
-      this.x+=this.dx;
-      this.y+=this.dy;
-    }
-    ball.draw = function(){
-      context.beginPath();
-      context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
-      context.strokeStyle = "black";
-      context.stroke();
-      context.fillStyle = this.color;
-      context.fill();
-    }
-    ball.run = function(){
-      this.checkedges();
-      this.update();
-      this.draw();
-    }
-    ball2.x = 1000;
-    ball2.y = 300;
-    ball2.dx = ball2.dy = -8;
-    ball2.radius = 50;
-    ball2.color = "red";
-    ball2.checkedges = function(){
-      if(this.x<this.radius||this.x>canvas.width-this.radius){
-        this.dx*=-1;
-      }
-      if(this.y<this.radius||this.y>canvas.height-this.radius){
-        this.dy*=-1;
-      }
-    }
-    ball2.update = function(){
-      this.x+=this.dx;
-      this.y+=this.dy;
-    }
-    ball2.draw = function(){
-      context.beginPath();
-      context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
-      context.strokeStyle = "black";
-      context.stroke();
-      context.fillStyle = this.color;
-      context.fill();
-    }
-    ball2.run = function(){
-      this.checkedges();
-      this.update();
-      this.draw();
     }
     animate();      // kick off the animation
-
 }
-
-// every animation cycle
 function animate() {
-    // erase the HTMLCanvasElement
-    context.clearRect(0,0,canvas.width,canvas.height);
-    ball.run();
-    ball2.run();
+    context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
+    for(let i = 0; i<b1.length;i++){ b1[i].run();}
     requestAnimationFrame(animate); // next cycle
 }

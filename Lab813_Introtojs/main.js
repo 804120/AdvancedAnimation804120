@@ -38,9 +38,9 @@ class Ball{
 function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
-    colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black"];
+    colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black", "tan", "beige", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
     b1 = [];
-    for(let i = 0; i<Math.floor(Math.random()*100);i++){
+    for(let i = 0; i<Math.floor(Math.random()*300);i++){
       let radius = Math.floor(Math.random()*40+14);
       b1.push(new Ball(Math.floor(Math.random()*(canvas.width-2*radius)+radius), Math.floor(Math.random()*(canvas.height-2*radius)+radius), Math.floor((Math.random()-0.5)*40), Math.floor((Math.random()-0.5)*40), radius, colors[Math.floor(Math.random()*colors.length)]));
       if(b1[i].dx==0&&b1.dy==0){

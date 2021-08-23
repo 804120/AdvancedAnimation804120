@@ -42,7 +42,10 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     b1 = [];
     for(let i = 0; i<Math.floor(Math.random()*300);i++){
       let radius = Math.floor(Math.random()*40+14);
-      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-2*radius)+radius), Math.floor(Math.random()*(canvas.height-2*radius)+radius), Math.floor((Math.random()-0.5)*40), Math.floor((Math.random()-0.5)*40), radius, colors[Math.floor(Math.random()*colors.length)]));
+      let speed = 10000/(Math.pow(radius, 2));
+      let deltax = (Math.floor(Math.random()*speed)*Math.sign(Math.random()-0.5));
+      let deltay = (Math.floor(Math.sqrt(Math.pow(speed, 2)-Math.pow(deltax, 2)))*Math.sign(Math.random()-0.5));
+      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-2*radius)+radius), Math.floor(Math.random()*(canvas.height-2*radius)+radius), deltax, deltay, radius, colors[Math.floor(Math.random()*colors.length)]));
       if(b1[i].dx==0&&b1.dy==0){
         b1[i].dx=1;
         b1[i].dy=1;

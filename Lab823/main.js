@@ -64,20 +64,14 @@ function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
     for(let i = 0; i<b1.length;i++){
       b1[i].run();
-      for(var j=i;j<b1.length;j++){
+      for(var j=i+1;j<b1.length;j++){
         if(Math.abs(b1[i].getX()-b1[j].getX())<40&&Math.abs(b1[i].getY()-b1[j].getY())<40){
-          if(b1[i].getColor() == "blue"){
-            b1[i].setColor("orange");
-          }
-          else{
-            b1[i].setColor("blue");
-          }
-          if(b1[j].getColor() == "blue"){
-            b1[j].setColor("orange");
-          }
-          else{
-            b1[j].setColor("blue");
-          }
+          b1[i].color = "orange";
+          b1[j].color = "orange";
+        }
+        else{
+          b1[i].color = "blue";
+          b1[j].color = "blue";
         }
       }
     }

@@ -1,5 +1,5 @@
 window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
-var canvas, context, b1, colors;// global variables
+var canvas, context, b1, colors, isColliding;// global variables
 class Ball{
   constructor(x, y, dx, dy, radius, color){
     this.x = x;
@@ -64,15 +64,17 @@ function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
     for(let i = 0; i<b1.length;i++){
       b1[i].run();
+      isColliding = false;
       for(var j=i+1;j<b1.length;j++){
         if(Math.abs(b1[i].getX()-b1[j].getX())<40&&Math.abs(b1[i].getY()-b1[j].getY())<40){
           b1[i].color = "orange";
           b1[j].color = "orange";
+          isColliding = true;
         }
-        else{
-          b1[i].color = "blue";
-          b1[j].color = "blue";
-        }
+
+      }
+      if(!isColliding){
+        b1[i].color = "blue";
       }
     }
     requestAnimationFrame(animate); // next cycle

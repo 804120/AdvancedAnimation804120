@@ -51,8 +51,8 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
     b1 = [];
-    for(let i = 0; i<10;i++){
-      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-40)+20), Math.floor(Math.random()*(canvas.height-40)+20), 2*Math.sign(Math.random()-0.5), 2*Math.sign(Math.random()-0.5), 20, "blue"));
+    for(let i = 0; i<15;i++){
+      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-40)+20), Math.floor(Math.random()*(canvas.height-40)+20), Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
       if(b1[i].dx==0&&b1.dy==0){
         b1[i].dx=1;
         b1[i].dy=1;
@@ -66,7 +66,7 @@ function animate() {
       b1[i].run();
       isColliding = false;
       for(var j=i+1;j<b1.length;j++){
-        if(Math.abs(b1[i].getX()-b1[j].getX())<40&&Math.abs(b1[i].getY()-b1[j].getY())<40){
+        if(Math.sqrt(Math.pow((b1[i].getX()-b1[j].getX()), 2)+Math.pow((b1[i].getY()-b1[j].getY()), 2))<40){
           b1[i].color = "orange";
           b1[j].color = "orange";
           isColliding = true;

@@ -1,5 +1,5 @@
 window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
-var canvas, context, b1, colors, time;// global variables
+var canvas, context, b1, mousex, mousey, time;// global variables
 class Ball{
   constructor(x, y, dx, dy, radius, color){
     this.x = x;
@@ -38,31 +38,42 @@ class Ball{
 function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
-    colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black", "tan", "beige", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
+    document.addEventListener('mousemove', (event) => {
+	console.log(`Mouse X: ${event.clientX}, Mouse Y: ${event.clientY}`);
+  mousex = event.clientX;
+  mousey = event.clientY;
+});
     b1 = [];
-    for(let i = 0; i<Math.floor(Math.random()*300);i++){
-      let radius = Math.floor(Math.random()*45+14);
-      let speed = 10000/(Math.pow(radius, 2));
-      let deltax = (Math.floor(Math.random()*speed)*Math.sign(Math.random()-0.5));
-      let deltay = (Math.floor(Math.sqrt(Math.pow(speed, 2)-Math.pow(deltax, 2)))*Math.sign(Math.random()-0.5));
-      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-2*radius)+radius), Math.floor(Math.random()*(canvas.height-2*radius)+radius), deltax, deltay, radius, colors[Math.floor(Math.random()*colors.length)]));
-      if(b1[i].dx==0&&b1.dy==0){
+    for(let i = 0; i<15;i++){
+      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-40)+20), Math.floor(Math.random()*(canvas.height-40)+20), Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
+      if(b1[i].dx==0&&b1[i].dy==0){
         b1[i].dx=1;
         b1[i].dy=1;
       }
     }
-    time = 0;
+    b2 = new Ball(mousex, mousey, 0, 0, 50, "red");
     animate();      // kick off the animation
+    time = 0;
 }
+
 function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
+    b2.run();
     time++;
-    for(let i = 0; i<b1.length;i++){ b1[i].run();}
-    if(time>60){
-      for(let i=0;i<b1.length;i++){
-        b1[i].color = colors[Math.floor(Math.random()*colors.length)]
+    for(let i = 0; i<b1.length;i++){
+      b1[i].run();
+      if(time>60&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
+        b2.color = "black";
+        b1[i].color = "hotpink";
+        b2.run();
+        b1[i].run();
+        return;
       }
-      time = 0;
     }
+    followcursor();
     requestAnimationFrame(animate); // next cycle
+}
+function followcursor(){
+  b2.x = mousex;
+  b2.y = mousey;
 }

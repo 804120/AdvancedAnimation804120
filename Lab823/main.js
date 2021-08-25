@@ -29,18 +29,6 @@ class Ball{
     context.fillStyle = this.color;
     context.fill();
   }
-  getColor(){
-    return this.color;
-  }
-  setColor(c){
-    this.color = c;
-  }
-  getX(){
-    return this.x;
-  }
-  getY(){
-    return this.y;
-  }
   run(){
     this.checkedges();
     this.update();
@@ -66,7 +54,7 @@ function animate() {
       b1[i].run();
       isColliding = false;
       for(var j=i+1;j<b1.length;j++){
-        if(Math.sqrt(Math.pow((b1[i].getX()-b1[j].getX()), 2)+Math.pow((b1[i].getY()-b1[j].getY()), 2))<40){
+        if(Math.sqrt(Math.pow((b1[i].x-b1[j].x), 2)+Math.pow((b1[i].y-b1[j].y), 2))<40){
           b1[i].color = "orange";
           b1[j].color = "orange";
           isColliding = true;

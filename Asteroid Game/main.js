@@ -51,7 +51,7 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
         b1[i].dy=1;
       }
     }
-    b2 = new Ball(mousex, mousey, 0, 0, 50, "red");
+    b2 = new Ball(650, 300, 0, 0, 50, "red");
     animate();      // kick off the animation
     time = 0;
 }
@@ -69,11 +69,25 @@ function animate() {
         b1[i].run();
         return;
       }
+
     }
     followcursor();
     requestAnimationFrame(animate); // next cycle
 }
 function followcursor(){
-  b2.x = mousex;
-  b2.y = mousey;
+  if(mousex>1250){
+    b2.x = 1250;
+  }
+  else if (mousex<50) {
+    b2.x = 50;
+  }
+  else b2.x = mousex;
+
+  if(mousey>550){
+    b2.y=550;
+  }
+  else if(mousey<50){
+    b2.y=50;
+  }
+  else b2.y = mousey;
 }

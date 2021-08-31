@@ -67,7 +67,7 @@ function animate() {
       b1[i].run();
       if(time>120&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
         b2.color = "black";
-        b1[i].color = "hotpink";
+        b1[i].color = "black";
         b2.draw();
         for(let j = i;j<b1.length;j++){
           b1[j].draw();

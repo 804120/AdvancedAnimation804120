@@ -1,5 +1,5 @@
 window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
-var canvas, context, b1, mousex, mousey, time;// global variables
+var canvas, context, b1, mousex, mousey, time, randomx, randomy;// global variables
 class Ball{
   constructor(x, y, dx, dy, radius, color){
     this.x = x;
@@ -44,14 +44,15 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
   mousey = event.clientY;
 });
     b1 = [];
-    for(let i = 0; i<15;i++){
-      b1.push(new Ball(Math.floor(Math.random()*(canvas.width-40)+20), Math.floor(Math.random()*(canvas.height-40)+20), Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
+    for(let i = 0; i<5;i++){
+      newpos();
+      b1.push(new Ball(randomx, randomy, Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
       if(b1[i].dx==0&&b1[i].dy==0){
         b1[i].dx=1;
         b1[i].dy=1;
       }
     }
-    b2 = new Ball(650, 300, 0, 0, 50, "red");
+    b2 = new Ball(650, 300, 0, 0, 50, "blue");
     animate();      // kick off the animation
     time = 0;
 }
@@ -60,17 +61,26 @@ function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
     b2.run();
     time++;
+    if(time==90) b2.color = "white";
+    if(time==120) b2.color = "red";
     for(let i = 0; i<b1.length;i++){
       b1[i].run();
-      if(time>60&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
+      if(time>120&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
         b2.color = "black";
         b1[i].color = "hotpink";
-        b2.run();
-        b1[i].run();
+        b2.draw();
+        for(let j = i;j<b1.length;j++){
+          b1[j].draw();
+        }
         return;
       }
-
     }
+    if(time%300==0){
+      newpos();
+      b2.color = "white";
+      b1.push(new Ball(randomx, randomy, Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
+    }
+    else if (time%300 == 10 && time>300) b2.color = "red";
     followcursor();
     requestAnimationFrame(animate); // next cycle
 }
@@ -90,4 +100,12 @@ function followcursor(){
     b2.y=50;
   }
   else b2.y = mousey;
+}
+
+function newpos(){
+  randomx = Math.floor(Math.random()*(canvas.width-40)+20);
+  randomy = Math.floor(Math.random()*(canvas.height-40)+20);
+  if(Math.abs(randomx-mousex)<75&&Math.abs(randomy-mousey)<75){
+    newpos();
+  }
 }

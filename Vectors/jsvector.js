@@ -12,9 +12,10 @@ function JSVector(x = 0,y = 0){
 // Set the magnitude of the vector,
 // retaining the angle (direction).
 JSVector.prototype.setMagnitude = function(mag){
+    this.x*=mag/this.mag;
+    this.y*= mag/this.mag;
     this.mag = mag;
-    this.x = mag*this.x/Math.sqrt(this.x*this.x+this.y*this.y);
-    this.y = mag*this.y/Math.sqrt(this.x*this.x+this.y*this.y);
+    return this;
 }
 
 // Get the magnitude of the vector using pythagorean theorem
@@ -27,11 +28,12 @@ JSVector.prototype.getMagnitude = function(){
 JSVector.prototype.setDirection = function(angle){
     this.x = this.mag * Math.cos(angle);
     this.y = this.mag * Math.sin(angle);
+    return this;
 }
 
 // Get the direction (angle) of the vector
 JSVector.prototype.getDirection = function(){
-    return Math.atan(this.y/this.x);
+    return Math.atan2(this.y,this.x);
 }
 
 // Add another vector to this vector
@@ -39,6 +41,7 @@ JSVector.prototype.add = function(v2){
     this.x+= v2.x;
     this.y += v2.y;
     this.mag = Math.sqrt(this.x*this.x+this.y*this.y);
+    return this;
 }
 
 // Subtract another vector from this vector
@@ -46,6 +49,7 @@ JSVector.prototype.sub = function(v2){
     this.y-=y;
     this.x-=x;
     this.mag = Math.sqrt(this.x*this.x+this.y*this.y);
+    return this;
 }
 
 // Class method to return a new vector that is the sum of two vectors
@@ -63,6 +67,7 @@ JSVector.prototype.multiply = function(scalar){
     this.x*=scalar;
     this.y*=scalar;
     this.mag*=scalar;
+    return this;
 }
 
 // Divide this vector by a scalar
@@ -70,13 +75,15 @@ JSVector.prototype.divide = function(scalar){
   this.x/=scalar;
   this.y/=scalar;
   this.mag/=scalar;
+  return this;
 }
 
 // Normalize this vector so that it has a magnitude of 1
 JSVector.prototype.normalize = function(){
-  this.x *= (1/this.mag);
-  this.y *= (1/this.mag);
+  this.x /= this.mag;
+  this.y /= this.mag;
   this.mag = 1;
+  return this;
 }
 
 // Limit the magnitude of this vector
@@ -86,6 +93,7 @@ JSVector.prototype.limit = function(lim){
     this.y*=(lim/this.mag);
     this.mag = lim;
   }
+  return this;
 }
 
 // Get the distance between this vector and another one
@@ -104,6 +112,7 @@ JSVector.prototype.distanceSquared = function(v2){
 JSVector.prototype.rotate = function(angle) {
   this.x = Math.cos(angle)*this.x-Math.sin(angle)*this.y;
   this.y = Math.sin(angle)*this.y+Math.cos(angle)*this.y;
+  return this;
 }
 
 // Get the angle between this vector and another one
@@ -118,5 +127,5 @@ JSVector.prototype.copy = function(){
 
 // Override inherited toString() to describe this instance
 JSVector.prototype.toString = function() {
-  return "x value: "+this.x+". y value: "+this.y;
+  return "x value: "+this.x+", y value: "+this.y+", magnitude: "+this.mag+", direction: "+this.getDirection();
 }

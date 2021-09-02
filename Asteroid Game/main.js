@@ -53,25 +53,28 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
       }
     }
     b2 = new Ball(650, 300, 0, 0, 50, "blue");
-    animate();      // kick off the animation
     time = 0;
+    animate();      // kick off the animation
 }
 
 function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
     b2.run();
+    disp();
     time++;
-    if(time==90) b2.color = "white";
-    if(time==120) b2.color = "red";
+    if(time==90) {
+      b2.color = "red";
+    }
     for(let i = 0; i<b1.length;i++){
       b1[i].run();
-      if(time>120&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
+      if(time>90&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
         b2.color = "black";
         b1[i].color = "black";
         b2.draw();
         for(let j = i;j<b1.length;j++){
           b1[j].draw();
         }
+        alert("You Lost!");
         return;
       }
     }
@@ -80,7 +83,7 @@ function animate() {
       b2.color = "white";
       b1.push(new Ball(randomx, randomy, Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
     }
-    else if (time%300 == 10 && time>300) b2.color = "red";
+    else if (time%300 == 5 && time>300) b2.color = "red";
     followcursor();
     requestAnimationFrame(animate); // next cycle
 }
@@ -108,4 +111,13 @@ function newpos(){
   if(Math.abs(randomx-mousex)<75&&Math.abs(randomy-mousey)<75){
     newpos();
   }
+}
+function disp(){
+  context.font = "20px Times New Roman";
+  context.fillStyle = "black";
+  context.textAlign = "left";
+  if(time<90) context.fillText("Get Ready...", 10, 20);
+  else if (time<120) context.fillText("Dodge!", 10, 20);
+  else context.fillText("Level "+ (Math.floor(time/300)+1), 10, 20);
+
 }

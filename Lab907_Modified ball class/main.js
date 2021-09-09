@@ -19,7 +19,6 @@ function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
     for(let i = 0; i<balls.length;i++){
       balls[i].run();
-      console.log(i);
     }
     requestAnimationFrame(animate); // next cycle
 }

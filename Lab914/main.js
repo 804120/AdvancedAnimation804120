@@ -12,6 +12,7 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
       let pos = new JSVector(Math.floor(Math.random()*(canvas.width-2*15)+15), Math.floor(Math.random()*(canvas.height-2*15)+15));
       balls.push(new Ball(pos, vel, acc, 15, "blue", context));
     }
+    vel.setMagnitude(12);
     vel.setDirection(Math.random()*2*Math.PI);
     let pos = new JSVector(Math.floor(Math.random()*(canvas.width-2*15)+15), Math.floor(Math.random()*(canvas.height-2*15)+15));
     b1 = new Ball(pos, vel, acc, 15, "green", context);

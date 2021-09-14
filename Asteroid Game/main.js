@@ -1,5 +1,5 @@
 window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
-var canvas, context, b1, mousex, mousey, time, randomx, randomy;// global variables
+var canvas, context, b1, mousex, mousey, time, randomx, randomy, health;// global variables
 class Ball{
   constructor(x, y, dx, dy, radius, color){
     this.x = x;
@@ -54,11 +54,13 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     }
     b2 = new Ball(650, 300, 0, 0, 50, "blue");
     time = 0;
+    health = 101;
     animate();      // kick off the animation
 }
 
 function animate() {
     context.clearRect(0,0,canvas.width,canvas.height);// erase the HTMLCanvasElement
+    collision = false;
     b2.run();
     disp();
     time++;
@@ -68,15 +70,19 @@ function animate() {
     for(let i = 0; i<b1.length;i++){
       b1[i].run();
       if(time>90&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
-        b2.color = "black";
+        health--;
         b1[i].color = "black";
-        b2.draw();
-        for(let j = i;j<b1.length;j++){
-          b1[j].draw();
+        if(health<=0){
+          b2.color = "black";
+          b2.draw();
+          for(let j = i;j<b1.length;j++){
+            b1[j].draw();
+          }
+          alert("You Lost!");
+          return;
         }
-        alert("You Lost!");
-        return;
       }
+      else b1[i].color = "blue";
     }
     if(time%300==0){
       newpos();
@@ -114,10 +120,15 @@ function newpos(){
 }
 function disp(){
   context.font = "20px Times New Roman";
+  if(health>66) context.fillStyle = "green";
+  else if (health>33) context.fillStyle = "yellow";
+  else context.fillStyle = "red";
+  context.fillRect(80, 4, (health-1)*12, 16);
   context.fillStyle = "black";
   context.textAlign = "left";
-  if(time<90) context.fillText("Get Ready...", 10, 20);
-  else if (time<120) context.fillText("Dodge!", 10, 20);
-  else context.fillText("Level "+ (Math.floor(time/300)+1), 10, 20);
+  context.fillText("Health: ", 10, 20);
+  if(time<90) context.fillText("Get Ready...", 10, 40);
+  else if (time<120) context.fillText("Dodge!", 10, 40);
+  else context.fillText("Level "+ (Math.floor(time/300)+1), 10, 40);
 
 }

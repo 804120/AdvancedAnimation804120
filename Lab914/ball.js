@@ -37,19 +37,19 @@ Ball.prototype.draw = function(){
 Ball.prototype.overlap = function(){
   if(this.position.x<-1*this.radius){
     this.position.x += canvas.width+2*this.radius;
-    this.velocity.y*=-1;
+    this.velocity.setDirection(Math.random()*Math.PI+0.5*Math.PI);
   }
   else if(this.position.x>canvas.width+this.radius){
     this.position.x -= canvas.width+2*this.radius;
-    this.velocity.y*=-1;
+    this.velocity.setDirection(Math.random()*Math.PI-0.5*Math.PI);
   }
   if(this.position.y<-1*this.radius){
     this.position.y += canvas.height+2*this.radius;
-    this.velocity.x*=-1;
+    this.velocity.setDirection(Math.random()*Math.PI+Math.PI);
   }
   else if(this.position.y>canvas.height+this.radius){
     this.position.y -= canvas.height+2*this.radius;
-    this.velocity.x*=-1;
+    this.velocity.setDirection(Math.random()*Math.PI);
   }
 }
 Ball.prototype.run = function(){

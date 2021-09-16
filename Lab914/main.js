@@ -14,11 +14,11 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     }
     vel.setMagnitude(4);
     vel.setDirection(Math.random()*2*Math.PI);
-    let pos = new JSVector(Math.floor(Math.random()*(canvas.width-2*8)+8), Math.floor(Math.random()*(canvas.height-2*8)+8));
-    b1 = new Ball(pos, vel, acc, 8, "limeGreen", context);
+    let pos = new JSVector(Math.floor(Math.random()*(canvas.width-2*12)+12), Math.floor(Math.random()*(canvas.height-2*12)+12));
+    b1 = new Ball(pos, vel, acc, 12, "limeGreen", context);
     vel.setDirection(Math.random()*2*Math.PI);
-    let pos2 = new JSVector(Math.floor(Math.random()*(canvas.width-2*8)+8), Math.floor(Math.random()*(canvas.height-2*8)+8));
-    b2 = new Ball(pos2, vel, acc, 8, "red", context);
+    let pos2 = new JSVector(Math.floor(Math.random()*(canvas.width-2*12)+12), Math.floor(Math.random()*(canvas.height-2*12)+12));
+    b2 = new Ball(pos2, vel, acc, 12, "red", context);
     animate();      // kick off the animation
 }
 function animate() {
@@ -35,11 +35,11 @@ function animate() {
 function interact(){
     for(let i=0;i<balls.length;i++){
       if(JSVector.subGetNew(balls[i].position, b1.position).getMagnitude()<150){
-        balls[i].acceleration = JSVector.subGetNew(b1.position, balls[i].position).normalize();
+        balls[i].acceleration = JSVector.subGetNew(b1.position, balls[i].position).setMagnitude(0.5);
       }
       else balls[i].acceleration.setDirection(balls[i].velocity.getDirection());
-      if(JSVector.subGetNew(balls[i].position, b2.position).getMagnitude()<150){
-        balls[i].acceleration = JSVector.subGetNew(balls[i].position, b2.position).normalize();
+      if(JSVector.subGetNew(balls[i].position, b2.position).getMagnitude()<200){
+        balls[i].acceleration = JSVector.subGetNew(balls[i].position, b2.position).setMagnitude(0.5);
       }
     }
 }

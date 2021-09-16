@@ -34,8 +34,31 @@ Ball.prototype.draw = function(){
   this.context.fillStyle = this.color;
   this.context.fill();
 }
+Ball.prototype.overlap = function(){
+  if(this.position.x<-1*this.radius){
+    this.position.x += canvas.width+2*this.radius;
+    this.velocity.y*=-1;
+  }
+  else if(this.position.x>canvas.width+this.radius){
+    this.position.x -= canvas.width+2*this.radius;
+    this.velocity.y*=-1;
+  }
+  if(this.position.y<-1*this.radius){
+    this.position.y += canvas.height+2*this.radius;
+    this.velocity.x*=-1;
+  }
+  else if(this.position.y>canvas.height+this.radius){
+    this.position.y -= canvas.height+2*this.radius;
+    this.velocity.x*=-1;
+  }
+}
 Ball.prototype.run = function(){
   this.checkedges();
+  this.update();
+  this.draw();
+}
+Ball.prototype.run2 = function(){
+  this.overlap();
   this.update();
   this.draw();
 }

@@ -7,11 +7,11 @@ function Shape(position, velocity, acceleration, radius, color, ctx){
   this.context = ctx;
 }
 Shape.prototype.repulsion = function(){
-  if(this.position.x<75){
-    this.acceleration.x=0.2*Math.abs(75/this.position.x);
+  if(this.position.x<100){
+    this.acceleration.x=0.2*Math.abs(100/this.position.x);
   }
-  else if(this.position.x>canvas.width-75){
-    this.acceleration.x =-0.2*(75/Math.abs(canvas.width-this.position.x));
+  else if(this.position.x>canvas.width-100){
+    this.acceleration.x =-0.2*(100/Math.abs(canvas.width-this.position.x));
   }
   else {
     this.acceleration.x +=Math.random()*0.1-0.05;
@@ -19,11 +19,11 @@ Shape.prototype.repulsion = function(){
   }
 
 
-  if(this.position.y<75){
-    this.acceleration.y=0.2*(75/Math.abs(this.position.y));
+  if(this.position.y<100){
+    this.acceleration.y=0.2*(100/Math.abs(this.position.y));
   }
-  else if(this.position.y>canvas.height-50){
-    this.acceleration.y =-0.2*(75/Math.abs(canvas.height-this.position.y));
+  else if(this.position.y>canvas.height-100){
+    this.acceleration.y =-0.2*(100/Math.abs(canvas.height-this.position.y));
   }
   else{
     this.acceleration.y += Math.random()*0.1-0.05;
@@ -37,14 +37,17 @@ Shape.prototype.update = function(){
   this.velocity.setMagnitude(oldv);
 }
 Shape.prototype.draw = function(){
-  let dir = this.velocity.normalize();
-  this.context.moveTo(this.position.x-0.5*this.radius*dir.y, this.position.y+0.5*this.radius*dir.x);
-  this.context.lineTo(this.position.x+2*this.radius*dir.x, this.position.y+2*this.radius*dir.y);
-  this.context.lineTo(this.position.x+0.5*this.radius*dir.y, this.position.y-0.5*this.radius*dir.x);
+  this.context.save();
+  this.context.translate(this.position.x, this.position.y);
+  this.context.rotate(this.velocity.getDirection());
+  this.context.moveTo(-1*this.radius,-0.5*this.radius);
+  this.context.lineTo(this.radius, 0);
+  this.context.lineTo(-1*this.radius, 0.5*this.radius);
   this.context.closePath();
   this.context.lineWidth = 5;
   this.context.strokeStyle = this.color;
   this.context.stroke();
+  this.context.restore();
 }
 Shape.prototype.run = function(){
   this.repulsion();

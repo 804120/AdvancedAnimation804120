@@ -7,7 +7,7 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     let acc = new JSVector(0, 0);
     shape = [];
     for(let i=0;i<30;i++){
-      vel.setMagnitude(Math.random()*4+4);
+      vel.setMagnitude(Math.random()*2+2);
       vel.setDirection(Math.random()*2*Math.PI);
       let pos = new JSVector(Math.floor(Math.random()*(canvas.width-2*50)+50), Math.floor(Math.random()*(canvas.height-2*50)+50));
       shape.push(new Shape(pos, vel, acc, 15, "darkgreen", context));

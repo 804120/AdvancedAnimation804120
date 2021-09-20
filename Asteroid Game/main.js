@@ -1,5 +1,5 @@
 window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
-var canvas, context, b1, mousex, mousey, time, randomx, randomy, health;// global variables
+var canvas, context, b1, mousex, mousey, time, randomx, randomy, health, time2, bonustime;// global variables
 class Ball{
   constructor(x, y, dx, dy, radius, color){
     this.x = x;
@@ -55,6 +55,8 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     b2 = new Ball(650, 300, 0, 0, 50, "blue");
     time = 0;
     health = 101;
+    time2 = 0;
+    bonustime=0;
     animate();      // kick off the animation
 }
 
@@ -71,6 +73,7 @@ function animate() {
       b1[i].run();
       if(time>90&&Math.floor(Math.sqrt(Math.pow((b1[i].x-b2.x), 2)+Math.pow((b1[i].y-b2.y), 2)))<70){
         health--;
+        time2 = 0;
         b1[i].color = "black";
         if(health<=0){
           b2.color = "black";
@@ -84,12 +87,22 @@ function animate() {
       }
       else b1[i].color = "blue";
     }
+    time2++;
     if(time%300==0){
       newpos();
       b2.color = "white";
       b1.push(new Ball(randomx, randomy, Math.floor(10*(Math.random()-0.5)), Math.floor(10*(Math.random()-0.5)), 20, "blue"));
     }
     else if (time%300 == 5 && time>300) b2.color = "red";
+    if (time2 > 2500/(Math.floor(time/300)+1) &&health<92){
+      health+=10;
+      time2 = 0;
+      bonustime = 0;
+    }
+    if(bonustime<30&&time>200){
+      context.fillText("Gain Health!", 10, 60);
+    }
+    bonustime++;
     followcursor();
     requestAnimationFrame(animate); // next cycle
 }

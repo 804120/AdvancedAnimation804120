@@ -4,9 +4,8 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
     movers = [];
-    colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black", "tan", "beige", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
     for(let i=0;i<15;i++){
-      movers.push(new Mover(colors[Math.floor(Math.random()*colors.length)], context));
+      movers.push(new Mover(context));
     }
     animate();      // kick off the animation
 }

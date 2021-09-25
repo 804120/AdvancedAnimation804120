@@ -1,7 +1,7 @@
 function Mover(ctx){
   this.velocity = new JSVector(Math.random()*4-2, Math.random()*4-2);
   this.radius = 16;
-  let colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black", "tan", "beige", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
+  let colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black", "tan", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
   this.color=colors[Math.floor(Math.random()*colors.length)];
   this.context = ctx;
   this.position = new JSVector(Math.random()*(canvas.width-6*this.radius)+3*this.radius, Math.random()*(canvas.height-6*this.radius)+3*this.radius);

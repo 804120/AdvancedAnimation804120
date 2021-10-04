@@ -19,6 +19,11 @@ Shape.prototype.update = function(){
   this.position.add(this.velocity);
   this.velocity.add(this.acceleration);
   this.velocity.setMagnitude(oldv);
+  this.radius-=0.01;
+  if(this.radius<=0){
+    this.radius = 15;
+    this.position = new JSVector(Math.floor(Math.random()*3000-1500), Math.floor(Math.random()*2000-1000));
+  }
 }
 Shape.prototype.draw = function(){
   this.context.save();
@@ -27,10 +32,10 @@ Shape.prototype.draw = function(){
   this.context.moveTo(-1*this.radius,-0.5*this.radius);
   this.context.lineTo(this.radius, 0);
   this.context.lineTo(-1*this.radius, 0.5*this.radius);
-  this.context.closePath();
   this.context.lineWidth = 5;
   this.context.strokeStyle = this.color;
   this.context.stroke();
+  this.context.closePath();
   this.context.restore();
 }
 Shape.prototype.run = function(){

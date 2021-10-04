@@ -23,8 +23,6 @@ Mover.prototype.checkedges = function(){
 Mover.prototype.update = function(){
   this.position.x+=this.velocity.x;
   this.position.y+=this.velocity.y;
-}
-Mover.prototype.radUpdate = function(){
   for(let i=0;i<this.orbiters.length;i++){
     this.orbiters[i].position.setMagnitude(this.radius*3);
     this.orbiters[i].radius = this.radius/2;
@@ -45,6 +43,7 @@ Mover.prototype.draw = function(){
   this.context.restore();
 }
 Mover.prototype.run = function(){
+  this.radius+=0.003;
   this.checkedges();
   this.update();
   this.draw();

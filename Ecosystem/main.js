@@ -41,7 +41,6 @@ function interact(){
               movers[j].radius = 16;
               movers[j].position = new JSVector(Math.random()*3000-1500, Math.random()*2000-1000);
             }
-            movers[j].radUpdate();
           }
         }
       }

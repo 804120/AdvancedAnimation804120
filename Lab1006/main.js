@@ -3,11 +3,16 @@ var canvas, context, snake, colors;// global variables
 function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
-    snake = new Snake(context);
+    snake = [];
+    for(let i=0;i<5;i++){
+        snake.push(new Snake(context));
+    }
     animate();      // kick off the animation
 }
 function animate() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    snake.run();
+    for(let i=0;i<snake.length;i++){
+      snake[i].run();
+    }
     requestAnimationFrame(animate); // next cycle
 }

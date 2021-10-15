@@ -5,11 +5,11 @@ function Snake(ctx){
   this.context = ctx;
   this.acceleration = new JSVector(0, 0);
   this.position = new JSVector(Math.random()*(canvas.width-6*this.radius)+3*this.radius, Math.random()*(canvas.height-6*this.radius)+3*this.radius);//assign a random starting position
-  this.pos = []; // array of segment positions
+  this.segments = []; // array of segment positions
   this.oldloc = []; // array storing old locations
   this.time = 0;
-  for(let i=0;i<32;i++){ // adding 16 segments, each with a startpoint and endpoint
-    this.pos.push(new JSVector());
+  for(let i=0;i<60;i++){ // adding 16 segments, each with a startpoint and endpoint
+    this.segments.push(new JSVector());
   }
 }
 Snake.prototype.checkedges = function(){ // snakes are repelled by the edge of the canvas when they are within a certain distance
@@ -25,36 +25,36 @@ Snake.prototype.checkedges = function(){ // snakes are repelled by the edge of t
 Snake.prototype.update = function(){ // updates position and velocity
   this.oldloc.push(new JSVector(this.position.x, this.position.y)); // store the current location in the oldloc array
   let oldv = this.velocity.getMagnitude();
-  this.velocity.x+=this.acceleration.x;
-  this.velocity.y+=this.acceleration.y;
+  this.velocity.add(this.acceleration);
   this.velocity.setMagnitude(oldv);
-  this.position.x+=this.velocity.x;
-  this.position.y+=this.velocity.y;
-  if(this.time>485){ // once enough time has passed, store the old positions as positions of the segments
-    for(let i=0;i<32;i++){
-      this.pos[i]=this.oldloc[i*15];
+  this.position.add(this.velocity);
+  if(this.time>60){ // once enough time has passed, store the old positions as positions of the segments
+    for(let i=0;i<60;i++){
+      this.segments[i]=this.oldloc[i];
     }
     this.oldloc.shift(); // delete the first item in the array of old locations
   }
   else{ // if enough time hasn't passed, just store the position of the segments as the position of the head
     for(let i=0;i<32;i++){
-      this.pos[i] = this.position;
+      this.segments[i] = this.position;
     }
   }
   this.velocity.setMagnitude(oldv);
 }
 Snake.prototype.draw = function(){ // render the snake
+/*
   this.context.beginPath();
   this.context.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI); // head
   this.context.fillStyle = this.color;
   this.context.fill();
   this.context.closePath();
-  for(let i=0;i<32;i+=2){ // draw each of the 16 segments
+  */
+  for(let i=0;i<60;i+=2){ // draw each of the 16 segments
     this.context.beginPath();
     this.context.lineCap = "round";
-    this.context.moveTo(this.pos[i].x, this.pos[i].y);
-    this.context.lineTo(this.pos[i+1].x, this.pos[i+1].y);
-    this.context.lineWidth = 4;
+    this.context.moveTo(this.segments[i].x, this.segments[i].y);
+    this.context.lineTo(this.segments[i+1].x, this.segments[i+1].y);
+    this.context.lineWidth = 8;
     this.context.stroke();
     this.context.closePath();
   }

@@ -1,10 +1,10 @@
 window.addEventListener("load", init);// wait for the page to finish loading with init as the callback
-var canvas, context, snake, colors;// global variables
+var canvas, context, snake;// global variables
 function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
     snake = [];
-    for(let i=0;i<5;i++){
+    for(let i=0;i<15;i++){
         snake.push(new Snake(context));
     }
     animate();      // kick off the animation

@@ -1,14 +1,12 @@
-function ParticleSystem(pos, color, ctx){
+function ParticleSystem(pos, color, rate, ctx){
   this.color = color;
   this.context = ctx;
   this.pos = pos;
   this.particles = [];
-  this.time = 0;
+  this.rate = rate;
 }
 ParticleSystem.prototype.run = function(){
-  this.time++;
-  if(this.time>3000) this.time =0;
-  if(this.time%1==0){
+  for(let i=0;i<this.rate;i++){
     this.particles.push(new Particle(new JSVector(this.pos.x, this.pos.y), this.color, this.context));
   }
   this.update();

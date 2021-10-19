@@ -23,5 +23,5 @@ Particle.prototype.run = function(){
   this.life++;
   this.update();
   this.draw();
-  if(this.life>60) this.alive = false;
+  if(this.life>100) this.alive = false;
 }

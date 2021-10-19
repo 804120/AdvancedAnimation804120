@@ -1,7 +1,7 @@
-function Particle(position, color, ctx){
+function Particle(position, color, g, ctx){
   this.position = position;
   this.velocity = new JSVector(Math.random()*8-4, Math.random()*8-4);
-  this.acceleration = new JSVector(0, 0.2);
+  this.acceleration = new JSVector(0, g);
   this.radius = 3;
   this.color=color;
   this.context = ctx;

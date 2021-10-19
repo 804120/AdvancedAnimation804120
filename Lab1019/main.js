@@ -22,7 +22,7 @@ document.addEventListener('keydown', event => {
 })
 var canvas, context, pSystem, colors;// global variables
 function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
-    colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "teal", "brown", "gray", "black", "tan", "beige", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
+    colors = ["red", "orange", "yellow", "green", "white", "blue", "purple", "pink", "teal", "brown", "gray", "tan", "beige", "hotPink", "aqua", "darkGreen", "cyan", "chartreuse", "lime", "gold"];
     canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
     context = canvas.getContext("2d");
     context.fillStyle = "black";

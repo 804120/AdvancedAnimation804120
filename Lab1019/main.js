@@ -41,7 +41,8 @@ function animate() {
 function generateParticleSystem(event){
   let x = event.clientX;
   let y = event.clientY;
-  pSystem.push(new ParticleSystem(new JSVector(x, y), colors[Math.floor(Math.random()*colors.length)], Math.floor(Math.random()*10+1), context));
+  let randomcolor = colors[Math.floor(Math.random()*colors.length)]; // generate a random color from the colors array
+  pSystem.push(new ParticleSystem(new JSVector(x, y), randomcolor, Math.floor(Math.random()*9+1), context));
 }
 function restore(event){
   for(let i=0;i<pSystem.length;i++){

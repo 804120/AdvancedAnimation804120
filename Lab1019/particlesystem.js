@@ -4,7 +4,7 @@ function ParticleSystem(pos, color, rate, ctx){
   this.pos = pos;
   this.particles = [];
   this.rate = rate;
-  this.g = 0.2; // gravitational acceleration
+  this.g = .2; // gravitational acceleration
 }
 ParticleSystem.prototype.run = function(){
   for(let i=0;i<this.rate;i++){

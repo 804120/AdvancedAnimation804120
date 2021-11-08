@@ -20,14 +20,28 @@ World.prototype.draw = function(){
   this.context.beginPath();
   this.context.moveTo(-1*this.position.x, -1*this.position.y);
   this.context.lineTo(this.width-this.position.x, -1*this.position.y);
-  this.context.lineTo(this.width-this.position.x, this.width-this.position.y);
-  this.context.lineTo(-1*this.position.x, this.width-this.position.y);
+  this.context.lineTo(this.width-this.position.x, this.height-this.position.y);
+  this.context.lineTo(-1*this.position.x, this.height-this.position.y);
   this.context.lineTo(-1*this.position.x, -1*this.position.y);
   this.context.strokeStyle = "LimeGreen";
   this.context.stroke();
   this.context.closePath();
 }
-
+World.prototype.update = function(){
+  if(up){
+    this.position.y-=5;
+  }
+  if(down){
+    this.position.y+=5;
+  }
+  if(left){
+    this.position.x-=5;
+  }
+  if(right){
+    this.position.x+=5;
+  }
+}
 World.prototype.run = function(){
+  this.update();
   this.draw();
 }

@@ -1,15 +1,11 @@
-function World(dimensions, buffer, ctx, canvas){
+function World(dimensions, buffer){
   this.width = dimensions.x/2; //Throughout this document I had to use half the width more than the actual width, so I found it easier to divide this by 2.
   this.height = dimensions.y/2; // see comment above
-  this.context = ctx; // probably unnecessary, but it's there just in case
   this.position = new JSVector(0, 0); // initial position
   this.destination = this.position; // since it's not moving yet, the destination is the same as the position
-  this.canvas = canvas; // also probably unnecessary
-  this.buffer = buffer;
-  this.up = false;
-  this.down = false;
-  this.left = false;
-  this.right = false;
+  this.buffer = buffer; // how far past the boundary you can go before it won't let you move anymore
+
+
   document.addEventListener('keydown', event => { //listens for the keydown event
     if (event.code === 'ArrowUp') this.up = true; //sets the up condition to "true", which will change the animate function
     else if (event.code === 'ArrowDown') this.down = true;//sets the down condition to "true", which will change the animate function
@@ -35,25 +31,25 @@ function World(dimensions, buffer, ctx, canvas){
   });
 }
 World.prototype.draw = function(){
-  this.context.save();
-  this.context.translate(-1*this.position.x+this.canvas.width/2, -1*this.position.y+this.canvas.height/2);
-  this.context.beginPath();
-  this.context.moveTo(0, -1*this.height);
-  this.context.lineTo(0, this.height);
-  this.context.strokeStyle = "red";
-  this.context.stroke();
-  this.context.closePath();
-  this.context.beginPath();
-  this.context.moveTo(-1*this.width, 0);
-  this.context.lineTo(this.width, 0);
-  this.context.strokeStyle = "red";
-  this.context.stroke();
-  this.context.closePath();
-  this.context.beginPath();
-  this.context.strokeStyle = "LimeGreen";
-  this.context.strokeRect(-1*this.width, -1*this.height, this.width*2, this.height*2);
-  this.context.closePath();
-  this.context.restore();
+  context.save();
+  context.translate(-1*this.position.x+canvas.width/2, -1*this.position.y+canvas.height/2);
+  context.beginPath();
+  context.moveTo(0, -1*this.height);
+  context.lineTo(0, this.height);
+  context.strokeStyle = "red";
+  context.stroke();
+  context.closePath();
+  context.beginPath();
+  context.moveTo(-1*this.width, 0);
+  context.lineTo(this.width, 0);
+  context.strokeStyle = "red";
+  context.stroke();
+  context.closePath();
+  context.beginPath();
+  context.strokeStyle = "LimeGreen";
+  context.strokeRect(-1*this.width, -1*this.height, this.width*2, this.height*2);
+  context.closePath();
+  context.restore();
 }
 World.prototype.update = function(){
   if(this.up){
@@ -69,8 +65,8 @@ World.prototype.update = function(){
   if(this.right){
     this.destination.x=this.position.x+20;;
   }
-  this.destination.x = this.value_limit(this.destination.x, -1*(this.width+this.buffer-this.canvas.width/2), this.width+this.buffer-this.canvas.width/2);
-  this.destination.y = this.value_limit(this.destination.y, -1*(this.height+this.buffer-this.canvas.height/2), this.height+this.buffer-this.canvas.height/2);
+  this.destination.x = this.value_limit(this.destination.x, -1*(this.width+this.buffer-canvas.width/2), this.width+this.buffer-canvas.width/2);
+  this.destination.y = this.value_limit(this.destination.y, -1*(this.height+this.buffer-canvas.height/2), this.height+this.buffer-canvas.height/2);
   this.position.add(JSVector.subGetNew(this.destination, this.position).divide(3));
   if(JSVector.subGetNew(this.destination, this.position).getMagnitude()<1) this.destination = this.position;
 

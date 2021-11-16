@@ -8,9 +8,7 @@ function init(){// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasEl
     ctx2 = canvas2.getContext("2d"); // second context
     context.fillStyle = "black";
     ctx2.fillStyle = "black";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
-    world = new World(new JSVector(2400, 1800), 75, context, canvas); // creating the world larger than the canvas
+    world = new World(new JSVector(2400, 1800), 75); // creating the world larger than the canvas
     ctx2.scale(canvas2.width/(world.width*2), canvas2.height/(world.height*2));
     animate();      // kick off the animation
 }

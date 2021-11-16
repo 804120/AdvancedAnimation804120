@@ -1,10 +1,19 @@
 function World(dimensions, buffer){
+  canvas = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+  canvas2 = document.getElementById("cnv2"); //second canvas
+  context = canvas.getContext("2d"); // first context
+  ctx2 = canvas2.getContext("2d"); // second context
+  context.fillStyle = "black";
+  ctx2.fillStyle = "black";
+
+
   this.width = dimensions.x/2; //Throughout this document I had to use half the width more than the actual width, so I found it easier to divide this by 2.
   this.height = dimensions.y/2; // see comment above
   this.position = new JSVector(0, 0); // initial position
   this.destination = this.position; // since it's not moving yet, the destination is the same as the position
   this.buffer = buffer; // how far past the boundary you can go before it won't let you move anymore
 
+  ctx2.scale(canvas2.width/(this.width*2), canvas2.height/(this.height*2)); // scaling the second context
 
   document.addEventListener('keydown', event => { //listens for the keydown event
     if (event.code === 'ArrowUp') this.up = true; //sets the up condition to "true", which will change the animate function
@@ -53,7 +62,6 @@ World.prototype.draw = function(){
 }
 World.prototype.update = function(){
   if(this.up){
-    console.log("hi");
     this.destination.y=this.position.y-20;
   }
   if(this.down){
@@ -72,6 +80,8 @@ World.prototype.update = function(){
 
 }
 World.prototype.run = function(){
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  ctx2.fillRect(0, 0, 2*world.width, 2*world.height);
   this.update();
   this.draw();
   this.runSmallCanvas();

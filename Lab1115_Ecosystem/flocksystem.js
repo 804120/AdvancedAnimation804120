@@ -6,7 +6,7 @@ function FlockSystem(color, num){
   for(let i=0;i<num;i++){
     let randompos = new JSVector(Math.random()*2*canvas1.width-canvas1.width, Math.random()*2*canvas1.height-canvas1.height);
     let randomvel = new JSVector(Math.random()-0.5, Math.random()-0.5);
-    this.boids.push(new Boid(randompos, randomvel.setMagnitude(3), new JSVector(0, 0), 15, this.color, ctx[0]));
+    this.boids.push(new Boid(randompos, randomvel.setMagnitude(3), new JSVector(0, 0), 15, this.color));
   }
 }
 FlockSystem.prototype.run = function(){

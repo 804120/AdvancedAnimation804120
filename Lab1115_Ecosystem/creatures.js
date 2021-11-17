@@ -1,5 +1,5 @@
 function Creature(){
-    this.colors = ["green", "blue", "yellow", "orange", "red", "purple", "white", "pink"];
+    this.colors = ["green", "blue", "yellow", "orange", "brown", "red", "purple", "white", "pink"];
     this.flocksystems = [];
     this.orbiters = [];
     for(let i=0;i<3;i++){
@@ -13,7 +13,7 @@ Creature.prototype.run = function(){
   for(let i=0;i<this.flocksystems.length;i++){
     this.flocksystems[i].run();
   }
-  for(let i=0;i<this.orbiters.length;i++){
+  for(let i=0;i<10;i++){
     this.orbiters[i].run();
   }
 }

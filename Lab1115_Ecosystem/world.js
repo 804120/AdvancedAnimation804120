@@ -1,8 +1,6 @@
 function World(dimensions, buffer){
-  canvas1 = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
-  canvas2 = document.getElementById("cnv2"); //second canvas
-  ctx = [canvas1.getContext("2d"), canvas2.getContext("2d")];
-  for(let i=0;i<2;i++) ctx[i].fillStyle = "black";
+  this.ctx = [canvas1.getContext("2d"), canvas2.getContext("2d")];
+  for(let i=0;i<2;i++) this.ctx[i].fillStyle = "black";
 
 
   this.width = dimensions.x/2; //Throughout this document I had to use half the width more than the actual width, so I found it easier to divide this by 2.
@@ -11,16 +9,16 @@ function World(dimensions, buffer){
   this.destination = this.position; // since it's not moving yet, the destination is the same as the position
   this.buffer = buffer; // how far past the boundary you can go before it won't let you move anymore
 
-  ctx[1].scale(canvas2.width/(this.width*2), canvas2.height/(this.height*2)); // scaling the second context
-  ctx[1].translate(this.width, this.height);
+  this.ctx[1].scale(canvas2.width/(this.width*2), canvas2.height/(this.height*2)); // scaling the second context
+  this.ctx[1].translate(this.width, this.height);
   this.eventListeners(); // call all of the event listeners
   this.creatures = new Creature();
 }
 
 World.prototype.run = function(){
-  ctx[0].fillRect(0, 0, canvas1.width, canvas1.height);
-  ctx[1].fillStyle = "black";
-  ctx[1].fillRect(-1*this.width, -1*this.height, 2*this.width, 2*this.height);
+  this.ctx[0].fillRect(0, 0, canvas1.width, canvas1.height);
+  this.ctx[1].fillStyle = "black";
+  this.ctx[1].fillRect(-1*this.width, -1*this.height, 2*this.width, 2*this.height);
   this.update();
   this.runSmallCanvas();
   this.draw();
@@ -54,31 +52,31 @@ World.prototype.eventListeners = function(){
 }
 
 World.prototype.draw = function(){
-  ctx[0].save();
-  ctx[0].translate(-1*this.position.x+canvas1.width/2, -1*this.position.y+canvas1.height/2);
+  this.ctx[0].save();
+  this.ctx[0].translate(-1*this.position.x+canvas1.width/2, -1*this.position.y+canvas1.height/2);
   this.creatures.run();
-  ctx[0].beginPath();
-  ctx[0].moveTo(0, -1*this.height);
-  ctx[0].lineTo(0, this.height);
-  ctx[0].strokeStyle = "red";
-  ctx[0].stroke();
-  ctx[0].closePath();
-  ctx[0].beginPath();
-  ctx[0].moveTo(-1*this.width, 0);
-  ctx[0].lineTo(this.width, 0);
-  ctx[0].strokeStyle = "red";
-  ctx[0].stroke();
-  ctx[0].closePath();
-  ctx[0].beginPath();
-  ctx[0].strokeStyle = "LimeGreen";
-  ctx[0].strokeRect(-1*this.width, -1*this.height, this.width*2, this.height*2);
-  ctx[0].closePath();
-  ctx[0].fillStyle = "black";
-  ctx[0].fillRect(-1*(this.width+this.buffer), -1*(this.height+this.buffer), 2*(this.width+this.buffer), this.buffer);
-  ctx[0].fillRect(-1*(this.width+this.buffer), -1*this.height, this.buffer, 2*(this.height+this.buffer));
-  ctx[0].fillRect(-1*(this.width), this.height, 2*(this.width+this.buffer), this.buffer);
-  ctx[0].fillRect(this.width, -1*this.height, this.buffer, 2*this.height);
-  ctx[0].restore();
+  this.ctx[0].beginPath();
+  this.ctx[0].moveTo(0, -1*this.height);
+  this.ctx[0].lineTo(0, this.height);
+  this.ctx[0].strokeStyle = "red";
+  this.ctx[0].stroke();
+  this.ctx[0].closePath();
+  this.ctx[0].beginPath();
+  this.ctx[0].moveTo(-1*this.width, 0);
+  this.ctx[0].lineTo(this.width, 0);
+  this.ctx[0].strokeStyle = "red";
+  this.ctx[0].stroke();
+  this.ctx[0].closePath();
+  this.ctx[0].beginPath();
+  this.ctx[0].strokeStyle = "LimeGreen";
+  this.ctx[0].strokeRect(-1*this.width, -1*this.height, this.width*2, this.height*2);
+  this.ctx[0].closePath();
+  this.ctx[0].fillStyle = "black";
+  this.ctx[0].fillRect(-1*(this.width+this.buffer), -1*(this.height+this.buffer), 2*(this.width+this.buffer), this.buffer);
+  this.ctx[0].fillRect(-1*(this.width+this.buffer), -1*this.height, this.buffer, 2*(this.height+this.buffer));
+  this.ctx[0].fillRect(-1*(this.width), this.height, 2*(this.width+this.buffer), this.buffer);
+  this.ctx[0].fillRect(this.width, -1*this.height, this.buffer, 2*this.height);
+  this.ctx[0].restore();
 }
 World.prototype.update = function(){
   if(this.up){
@@ -101,23 +99,23 @@ World.prototype.update = function(){
 }
 
 World.prototype.runSmallCanvas = function(){
-    ctx[1].lineWidth = 2*canvas1.width/canvas2.width;
-    ctx[1].beginPath();
-    ctx[1].moveTo(-1*this.width, 0);
-    ctx[1].lineTo(this.width, 0);
-    ctx[1].strokeStyle = "red";
-    ctx[1].stroke();
-    ctx[1].closePath();
-    ctx[1].beginPath();
-    ctx[1].moveTo(0, -1*this.height);
-    ctx[1].lineTo(0, this.height);
-    ctx[1].stroke();
-    ctx[1].closePath();
-    ctx[1].beginPath();
-    ctx[1].strokeStyle = "white";
-    ctx[1].strokeRect(this.position.x-canvas1.width/2, this.position.y-canvas1.height/2, canvas1.width, canvas1.height);
-    ctx[1].stroke();
-    ctx[1].closePath();
+    this.ctx[1].lineWidth = 2*canvas1.width/canvas2.width;
+    this.ctx[1].beginPath();
+    this.ctx[1].moveTo(-1*this.width, 0);
+    this.ctx[1].lineTo(this.width, 0);
+    this.ctx[1].strokeStyle = "red";
+    this.ctx[1].stroke();
+    this.ctx[1].closePath();
+    this.ctx[1].beginPath();
+    this.ctx[1].moveTo(0, -1*this.height);
+    this.ctx[1].lineTo(0, this.height);
+    this.ctx[1].stroke();
+    this.ctx[1].closePath();
+    this.ctx[1].beginPath();
+    this.ctx[1].strokeStyle = "white";
+    this.ctx[1].strokeRect(this.position.x-canvas1.width/2, this.position.y-canvas1.height/2, canvas1.width, canvas1.height);
+    this.ctx[1].stroke();
+    this.ctx[1].closePath();
 }
 
 World.prototype.value_limit = function(val, min, max) {

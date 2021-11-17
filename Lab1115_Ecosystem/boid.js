@@ -27,18 +27,18 @@ Boid.prototype.update = function(){
 }
 Boid.prototype.draw = function(){
   for(let i=0;i<2;i++){
-    ctx[i].save();
-    ctx[i].translate(this.position.x, this.position.y);
-    ctx[i].rotate(this.velocity.getDirection());
-    ctx[i].beginPath();
-    ctx[i].moveTo(-1*this.radius,-0.5*this.radius);
-    ctx[i].lineTo(this.radius, 0);
-    ctx[i].lineTo(-1*this.radius, 0.5*this.radius);
-    ctx[i].closePath();
-    ctx[i].lineWidth = 5;
-    ctx[i].strokeStyle = this.color;
-    ctx[i].stroke();
-    ctx[i].restore();
+    ecosystem.ctx[i].save();
+    ecosystem.ctx[i].translate(this.position.x, this.position.y);
+    ecosystem.ctx[i].rotate(this.velocity.getDirection());
+    ecosystem.ctx[i].beginPath();
+    ecosystem.ctx[i].moveTo(-1*this.radius,-0.5*this.radius);
+    ecosystem.ctx[i].lineTo(this.radius, 0);
+    ecosystem.ctx[i].lineTo(-1*this.radius, 0.5*this.radius);
+    ecosystem.ctx[i].closePath();
+    ecosystem.ctx[i].lineWidth = 5;
+    ecosystem.ctx[i].strokeStyle = this.color;
+    ecosystem.ctx[i].stroke();
+    ecosystem.ctx[i].restore();
   }
 }
 Boid.prototype.run = function(){

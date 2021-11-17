@@ -1,10 +1,9 @@
 function World(dimensions, buffer){
   canvas1 = document.getElementById("cnv"); // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
   canvas2 = document.getElementById("cnv2"); //second canvas
-  ctx1 = canvas1.getContext("2d"); // first context
-  ctx2 = canvas2.getContext("2d"); // second context
-  ctx1.fillStyle = "black";
-  ctx2.fillStyle = "black";
+  ctx = [canvas1.getContext("2d"), canvas2.getContext("2d")];
+  for(let i=0;i<2;i++) ctx[i].fillStyle = "black";
+
 
   this.width = dimensions.x/2; //Throughout this document I had to use half the width more than the actual width, so I found it easier to divide this by 2.
   this.height = dimensions.y/2; // see comment above
@@ -12,16 +11,19 @@ function World(dimensions, buffer){
   this.destination = this.position; // since it's not moving yet, the destination is the same as the position
   this.buffer = buffer; // how far past the boundary you can go before it won't let you move anymore
 
-  ctx2.scale(canvas2.width/(this.width*2), canvas2.height/(this.height*2)); // scaling the second context
+  ctx[1].scale(canvas2.width/(this.width*2), canvas2.height/(this.height*2)); // scaling the second context
+  ctx[1].translate(this.width, this.height);
   this.eventListeners(); // call all of the event listeners
+  this.creatures = new Creature();
 }
 
 World.prototype.run = function(){
-  ctx1.fillRect(0, 0, canvas1.width, canvas1.height);
-  ctx2.fillRect(0, 0, 2*world.width, 2*world.height);
+  ctx[0].fillRect(0, 0, canvas1.width, canvas1.height);
+  ctx[1].fillStyle = "black";
+  ctx[1].fillRect(-1*this.width, -1*this.height, 2*this.width, 2*this.height);
   this.update();
-  this.draw();
   this.runSmallCanvas();
+  this.draw();
 }
 
 World.prototype.eventListeners = function(){
@@ -44,31 +46,39 @@ World.prototype.eventListeners = function(){
     y*= this.height*2/canvas2.height;
     x-= this.width;
     y-= this.height;
+    console.log(x);
+    console.log(y);
     let newpos = new JSVector(x, y);
     this.destination = newpos;
   });
 }
 
 World.prototype.draw = function(){
-  ctx1.save();
-  ctx1.translate(-1*this.position.x+canvas1.width/2, -1*this.position.y+canvas1.height/2);
-  ctx1.beginPath();
-  ctx1.moveTo(0, -1*this.height);
-  ctx1.lineTo(0, this.height);
-  ctx1.strokeStyle = "red";
-  ctx1.stroke();
-  ctx1.closePath();
-  ctx1.beginPath();
-  ctx1.moveTo(-1*this.width, 0);
-  ctx1.lineTo(this.width, 0);
-  ctx1.strokeStyle = "red";
-  ctx1.stroke();
-  ctx1.closePath();
-  ctx1.beginPath();
-  ctx1.strokeStyle = "LimeGreen";
-  ctx1.strokeRect(-1*this.width, -1*this.height, this.width*2, this.height*2);
-  ctx1.closePath();
-  ctx1.restore();
+  ctx[0].save();
+  ctx[0].translate(-1*this.position.x+canvas1.width/2, -1*this.position.y+canvas1.height/2);
+  this.creatures.run();
+  ctx[0].beginPath();
+  ctx[0].moveTo(0, -1*this.height);
+  ctx[0].lineTo(0, this.height);
+  ctx[0].strokeStyle = "red";
+  ctx[0].stroke();
+  ctx[0].closePath();
+  ctx[0].beginPath();
+  ctx[0].moveTo(-1*this.width, 0);
+  ctx[0].lineTo(this.width, 0);
+  ctx[0].strokeStyle = "red";
+  ctx[0].stroke();
+  ctx[0].closePath();
+  ctx[0].beginPath();
+  ctx[0].strokeStyle = "LimeGreen";
+  ctx[0].strokeRect(-1*this.width, -1*this.height, this.width*2, this.height*2);
+  ctx[0].closePath();
+  ctx[0].fillStyle = "black";
+  ctx[0].fillRect(-1*(this.width+this.buffer), -1*(this.height+this.buffer), 2*(this.width+this.buffer), this.buffer);
+  ctx[0].fillRect(-1*(this.width+this.buffer), -1*this.height, this.buffer, 2*(this.height+this.buffer));
+  ctx[0].fillRect(-1*(this.width), this.height, 2*(this.width+this.buffer), this.buffer);
+  ctx[0].fillRect(this.width, -1*this.height, this.buffer, 2*this.height);
+  ctx[0].restore();
 }
 World.prototype.update = function(){
   if(this.up){
@@ -91,23 +101,23 @@ World.prototype.update = function(){
 }
 
 World.prototype.runSmallCanvas = function(){
-    ctx2.lineWidth = 5;
-    ctx2.beginPath();
-    ctx2.moveTo(this.width, 0);
-    ctx2.lineTo(this.width, 2*this.height);
-    ctx2.strokeStyle = "red";
-    ctx2.stroke();
-    ctx2.closePath();
-    ctx2.beginPath();
-    ctx2.moveTo(0, this.height);
-    ctx2.lineTo(2*this.width, this.height);
-    ctx2.stroke();
-    ctx2.closePath();
-    ctx2.beginPath();
-    ctx2.strokeStyle = "white";
-    ctx2.strokeRect(this.width+this.position.x-canvas1.width/2, this.height+this.position.y-canvas1.height/2, canvas1.width, canvas1.height);
-    ctx2.stroke();
-    ctx2.closePath();
+    ctx[1].lineWidth = 2*canvas1.width/canvas2.width;
+    ctx[1].beginPath();
+    ctx[1].moveTo(-1*this.width, 0);
+    ctx[1].lineTo(this.width, 0);
+    ctx[1].strokeStyle = "red";
+    ctx[1].stroke();
+    ctx[1].closePath();
+    ctx[1].beginPath();
+    ctx[1].moveTo(0, -1*this.height);
+    ctx[1].lineTo(0, this.height);
+    ctx[1].stroke();
+    ctx[1].closePath();
+    ctx[1].beginPath();
+    ctx[1].strokeStyle = "white";
+    ctx[1].strokeRect(this.position.x-canvas1.width/2, this.position.y-canvas1.height/2, canvas1.width, canvas1.height);
+    ctx[1].stroke();
+    ctx[1].closePath();
 }
 
 World.prototype.value_limit = function(val, min, max) {

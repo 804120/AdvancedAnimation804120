@@ -63,7 +63,7 @@ Game.prototype.run = function(){
           this.actors.splice(i, 1);
         }
     }
-    if(Math.random()>0.9){
+    if(Math.random()>0.95){
       this.actors.push(new Actor(this));
     }
 

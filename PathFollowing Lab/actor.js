@@ -15,6 +15,7 @@ class Actor {
         this.nextCellIndex = 1;
         this.vel = new JSVector(0,0);   // velocity
         this.alive = true;
+        this.schpeed = Math.random()*3+3;
     }
 
     run() {
@@ -29,11 +30,10 @@ class Actor {
         // the path and dies
         // move this actor along the path until it reaches the end of
    // the path and dies
-   let schpeed = 5;
    this.nextCell = game.path[this.pathIndex+this.nextCellIndex];
    this.vel = JSVector.subGetNew(this.target,this.loc);
    if(this.pathIndex+this.nextCellIndex<game.path.length){
-     if(this.vel.getMagnitude()<schpeed){
+     if(this.vel.getMagnitude()<this.schpeed){
        if(this.pathIndex+this.nextCellIndex<game.path.length-1){
          this.nextCellIndex++;
          this.currentCell = this.nextCell;
@@ -47,7 +47,7 @@ class Actor {
      }
    }
 
-   if(this.vel.getMagnitude()>0) this.vel.setMagnitude(schpeed);
+   if(this.vel.getMagnitude()>0) this.vel.setMagnitude(this.schpeed);
    this.loc.add(this.vel);
  }
 

@@ -18,7 +18,7 @@ function World(dimensions, buffer, numRows, numCols){
   for(let i=0;i<numRows;i++){
     this.cells.push([]);
     for(let j=0;j<numCols;j++){
-      let occ = Math.random()>0.5;
+      let occ = Math.random()>0.6;
       this.cells[i].push(new Cell(this, i, j, occ));
     }
   }

@@ -18,7 +18,7 @@ function World(dimensions, buffer, numRows, numCols){
   for(let i=0;i<numRows;i++){
     this.cells.push([]);
     for(let j=0;j<numCols;j++){
-      let occ = Math.random()>0.9;
+      let occ = Math.random()>0.8;
       this.cells[i].push(new Cell(this, i, j, occ));
     }
   }
@@ -29,6 +29,7 @@ function World(dimensions, buffer, numRows, numCols){
 World.prototype.run = function(){
   this.ctx1.fillRect(0, 0, this.canvas1.width, this.canvas1.height);
   this.ctx2.fillRect(0, 0, 2*world.width, 2*world.height);
+  this.findPath(this.cells[0][0], this.cells[14][19]);
   this.update();
   this.enhancePerformance();
   this.draw();
@@ -68,8 +69,10 @@ World.prototype.eventListeners = function(){
     x = Math.floor(x/this.cellWidth);
     y = Math.floor(y/this.cellHeight);
     this.cells[y][x].occupied = !this.cells[y][x].occupied;
+    if(this.cells[y][x].falsepath)this.cells[y][x].falsepath = false;
     this.cells[y][x].run();
     this.ctx1.fillStyle = "black";
+    this.resetPath();
   })
 }
 
@@ -148,4 +151,45 @@ World.prototype.enhancePerformance = function(){
 }
 World.prototype.value_limit = function(val, min, max) {
   return val < min ? min : (val > max ? max : val);
+}
+
+World.prototype.findPath = function(startCell, endCell){
+  endCell.occupied = false;
+  if(startCell==endCell){
+    console.log("success!");
+    startCell.path = true;
+    startCell.occupied = false;
+  }
+  else{
+    this.currentCell = startCell;
+    this.currentCell.path = true;
+    this.currentCell.occupied = false;
+    if(this.currentCell.neighbors.e!=null&&!this.currentCell.neighbors.e.occupied&&!this.currentCell.neighbors.e.falsepath){
+        this.findPath(this.currentCell.neighbors.e, endCell);
+    }
+    else if(this.currentCell.neighbors.s!=null&&!this.currentCell.neighbors.s.occupied&&!this.currentCell.neighbors.s.falsepath){
+      this.findPath(this.currentCell.neighbors.s, endCell);
+    }
+    else if(this.currentCell.neighbors.n!=null&&this.currentCell.neighbors.n.path){
+      this.currentCell.falsepath = true;
+      if(this.currentCell.neighbors.w!=null){
+        this.findPath(this.currentCell.neighbors.w, endCell);
+      }
+    }
+    else if(this.currentCell.neighbors.w!=null&&this.currentCell.neighbors.w.path){
+      this.currentCell.falsepath = true;
+      if(this.currentCell.neighbors.wn!=null){
+        this.findPath(this.currentCell.neighbors.n, endCell);
+      }
+    }
+    else console.log("dead end");
+  }
+}
+World.prototype.resetPath = function(){
+  for(let i=0;i<this.cells.length;i++){
+    for(let j=0;j<this.cells[i].length;j++){
+      this.cells[i][j].path = false;
+      this.cells[i][j].falsepath =false;
+    }
+  }
 }

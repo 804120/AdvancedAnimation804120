@@ -27,7 +27,7 @@ Square.prototype.update = function(){
   this.position.add(this.velocity);
   this.velocity.add(this.acceleration);
   this.velocity.setMagnitude(oldv);
-  let distances = []
+  let distances = [];
   distances.push(JSVector.subGetNew(this.position, new JSVector(-1*canvas1.width, -1*canvas1.height)).getMagnitude());
   distances.push(JSVector.subGetNew(this.position, new JSVector(-1*canvas1.width, canvas1.height)).getMagnitude());
   distances.push(JSVector.subGetNew(this.position, new JSVector(canvas1.width, canvas1.height)).getMagnitude());
@@ -50,7 +50,22 @@ Square.prototype.draw = function(){
   }
 }
 Square.prototype.run = function(){
+  this.repelFlocks();
   this.checkedges();
   this.update();
   this.draw();
+}
+
+Square.prototype.repelFlocks = function(){
+  let isRepelling = false;
+  for(let i=0;i<ecosystem.creatures.creatures[0].length;i++){
+    let targetFlock = ecosystem.creatures.creatures[0][i];
+    if(JSVector.subGetNew(this.position, targetFlock.averagePos).getMagnitude()<300){
+      this.acceleration = JSVector.subGetNew(this.position, targetFlock.averagePos).setMagnitude(0.1);
+      isRepelling = true;
+    }
+  }
+  if(!isRepelling){
+    this.acceleration = new JSVector(0, 0);
+  }
 }

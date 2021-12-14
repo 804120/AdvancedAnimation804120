@@ -15,4 +15,4 @@ Exhibit 3 behaviors: Pointing to the nearest virus, emitting a particle system w
 Exhibit 3 behaviors: initial position at the tip of the Spitter boid, a random initial velocity, and an acceleration of a constant magnitude towards the virus nearest the spitter. Also keep the same color as the spitter.
 
 ## Squares
-Exhibit 3 behaviors: velocity with a random direction and magnitude 5, bouncing off of edges of the ecosystem and changing colors when this happens, radius changing proportional to the distance between the square and the nearest corner while staying between 10 and 50.
+Exhibit 4 behaviors: velocity with a random direction and magnitude 5, bouncing off of edges of the ecosystem and changing colors when this happens, radius changing proportional to the distance between the square and the nearest corner while staying between 10 and 50, repelling from the center of all the flocks.

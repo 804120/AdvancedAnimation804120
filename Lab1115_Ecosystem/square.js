@@ -13,10 +13,12 @@ Square.prototype.changeColors = function(){
 Square.prototype.checkedges = function(){
   if(this.position.x<this.radius/2-ecosystem.width||this.position.x>ecosystem.width-this.radius/2){
     this.velocity.x*=-1;
+    this.position.x+=this.velocity.x;
     this.changeColors();
   }
   if(this.position.y<this.radius/2-ecosystem.height||this.position.y>ecosystem.height-this.radius/2){
     this.velocity.y*=-1;
+    this.position.y+=this.velocity.y;
     this.changeColors();
   }
 }

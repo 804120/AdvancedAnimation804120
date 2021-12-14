@@ -8,12 +8,17 @@ function Creature(){
     for(let i=0;i<10;i++){
       this.orbiters.push(new Mover());
     }
+    this.spitters = [];
+    for(let i=0;i<3;i++){
+      this.spitters.push(new Spitter(this.colors[Math.floor(Math.random()*this.colors.length)]));
+    }
+    this.creatures = [this.flocksystems, this.orbiters, this.spitters];
+
 }
 Creature.prototype.run = function(){
-  for(let i=0;i<this.flocksystems.length;i++){
-    this.flocksystems[i].run();
-  }
-  for(let i=0;i<10;i++){
-    this.orbiters[i].run();
+  for(let i=0;i<this.creatures.length;i++){
+    for(let j=0;j<this.creatures[i].length;j++){
+      this.creatures[i][j].run();
+    }
   }
 }

@@ -1,7 +1,11 @@
-function Boid(position, velocity, acceleration, radius, color){
+function Boid(position, velocity, acceleration, radius, color, fixed){
   this.position = new JSVector(position.x, position.y);
-  this.velocity = new JSVector(velocity.x, velocity.y);
-  this.acceleration = new JSVector(acceleration.x, acceleration.y);
+  this.fixed = fixed;
+  if(!this.fixed){
+    this.velocity = new JSVector(velocity.x, velocity.y);
+    this.acceleration = new JSVector(acceleration.x, acceleration.y);
+  }
+  else this.dir = Math.random()*2*Math.PI;
   this.radius = radius;
   this.color=color;
 }
@@ -29,7 +33,8 @@ Boid.prototype.draw = function(){
   for(let i=0;i<2;i++){
     ecosystem.ctx[i].save();
     ecosystem.ctx[i].translate(this.position.x, this.position.y);
-    ecosystem.ctx[i].rotate(this.velocity.getDirection());
+    if(this.fixed) ecosystem.ctx[i].rotate(this.dir);
+    else ecosystem.ctx[i].rotate(this.velocity.getDirection());
     ecosystem.ctx[i].beginPath();
     ecosystem.ctx[i].moveTo(-1*this.radius,-0.5*this.radius);
     ecosystem.ctx[i].lineTo(this.radius, 0);
@@ -42,7 +47,9 @@ Boid.prototype.draw = function(){
   }
 }
 Boid.prototype.run = function(){
+  if(!this.fixed){
   this.checkedges();
   this.update();
+  }
   this.draw();
 }

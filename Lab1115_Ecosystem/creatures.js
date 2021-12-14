@@ -12,7 +12,11 @@ function Creature(){
     for(let i=0;i<3;i++){
       this.spitters.push(new Spitter(this.colors[Math.floor(Math.random()*this.colors.length)]));
     }
-    this.creatures = [this.flocksystems, this.orbiters, this.spitters];
+    this.squares = [];
+    for(let i=0;i<10;i++){
+      this.squares.push(new Square());
+    }
+    this.creatures = [this.flocksystems, this.orbiters, this.spitters, this.squares];
 
 }
 Creature.prototype.run = function(){

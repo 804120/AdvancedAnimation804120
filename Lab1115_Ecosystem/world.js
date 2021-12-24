@@ -59,7 +59,7 @@ World.prototype.eventListeners = function(){
 World.prototype.draw = function(){
   this.ctx[0].save();
   this.ctx[0].scale(this.zoomScale.x, this.zoomScale.y);
-  this.ctx[0].translate(-1*this.position.x+canvas1.width/2, -1*this.position.y+canvas1.height/2);
+  this.ctx[0].translate(-1*this.position.x+canvas1.width/2/this.zoomfactor, -1*this.position.y+canvas1.height/2/this.zoomfactor);
   this.creatures.run();
   this.ctx[0].beginPath();
   this.ctx[0].moveTo(0, -1*this.height);
@@ -89,13 +89,13 @@ World.prototype.update = function(){
     this.destination.y=this.position.y-20;
   }
   if(this.down){
-    this.destination.y=this.position.y+20;;
+    this.destination.y=this.position.y+20;
   }
   if(this.left){
-    this.destination.x=this.position.x-20;;
+    this.destination.x=this.position.x-20;
   }
   if(this.right){
-    this.destination.x=this.position.x+20;;
+    this.destination.x=this.position.x+20;
   }
   if(this.zoomIn){
     this.zoomScale.multiply(1.01);
@@ -109,8 +109,8 @@ World.prototype.update = function(){
   if(this.zoomfactor != this.zoomScale.x){
     this.zoomScale.setMagnitude(this.zoomfactor*Math.sqrt(2));
   }
-  this.destination.x = this.value_limit(this.destination.x, -1*(this.width+this.buffer-canvas1.width/2), this.zoomfactor*(this.width+this.buffer)-canvas1.width/2);
-  this.destination.y = this.value_limit(this.destination.y, -1*(this.height+this.buffer-canvas1.height/2), this.zoomfactor*(this.height+this.buffer)-canvas1.height/2);
+  this.destination.x = this.value_limit(this.destination.x, -1*(this.width+this.buffer-canvas1.width/2/this.zoomfactor), (this.width+this.buffer-canvas1.width/2/this.zoomfactor));
+  this.destination.y = this.value_limit(this.destination.y, -1*(this.height+this.buffer-canvas1.height/2/this.zoomfactor), (this.height+this.buffer-canvas1.height/2/this.zoomfactor));
   this.position.add(JSVector.subGetNew(this.destination, this.position).divide(3));
   if(JSVector.subGetNew(this.destination, this.position).getMagnitude()<1) this.destination = this.position;
 
@@ -131,7 +131,7 @@ World.prototype.runSmallCanvas = function(){
     this.ctx[1].closePath();
     this.ctx[1].beginPath();
     this.ctx[1].strokeStyle = "white";
-    this.ctx[1].strokeRect(this.position.x-canvas1.width/2, this.position.y-canvas1.height/2, canvas1.width/this.zoomfactor, canvas1.height/this.zoomfactor);
+    this.ctx[1].strokeRect(this.position.x-canvas1.width/2/this.zoomfactor, this.position.y-canvas1.height/2/this.zoomfactor, canvas1.width/this.zoomfactor, canvas1.height/this.zoomfactor);
     this.ctx[1].stroke();
     this.ctx[1].closePath();
 }

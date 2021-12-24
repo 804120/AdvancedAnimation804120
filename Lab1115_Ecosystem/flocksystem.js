@@ -19,7 +19,7 @@ FlockSystem.prototype.run = function(){
   this.averagePos.divide(this.boids.length);
   this.averagevel/=this.boids.length;
   for(let i=0;i<this.boids.length;i++){
-    this.boids[i].acceleration = JSVector.subGetNew(this.averagePos, this.boids[i].position).setMagnitude(0.3);
+    this.boids[i].acceleration = JSVector.subGetNew(this.averagePos, this.boids[i].position).setMagnitude(0.8);
   }
   this.repel();
   this.update();

@@ -48,8 +48,8 @@ World.prototype.eventListeners = function(){
     let y = event.offsetY;
     x*= this.width*2/canvas2.width;
     y*= this.height*2/canvas2.height;
-    x-= this.width/this.zoomfactor;
-    y-= this.height/this.zoomfactor;
+    x-= this.width;
+    y-= this.height;
     let newpos = new JSVector(x, y);
     this.destination = newpos;
   });

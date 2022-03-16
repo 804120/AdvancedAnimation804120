@@ -13,7 +13,8 @@ var productions = {
     "ANYTHING": [
       ["THING"],
       ["PERSON"],
-      ["SPECIFIC_PERSON"]
+      ["SPECIFIC_PERSON"],
+      ["PERSONFROMSOMEWHERE"]
     ],
     "THING": [
         ["a slip of paper containing the login information to Jeff Bezos's brokerage account"],
